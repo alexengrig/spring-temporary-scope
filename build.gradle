@@ -1,0 +1,19 @@
+plugins {
+    id 'java'
+}
+
+group = 'dev.alexengrig.spring'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '16'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework:spring-context:5.3.8'
+}
+
+test {
+    useJUnitPlatform()
+}
