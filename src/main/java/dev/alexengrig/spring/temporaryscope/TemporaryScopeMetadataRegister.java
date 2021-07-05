@@ -30,8 +30,8 @@ public class TemporaryScopeMetadataRegister implements BeanFactoryPostProcessor 
                         temporaryScopeMetadataHolder.put(beanName, temporaryScopeMetadata);
                     }
                 } else {
-                    //TODO: Add default metadata with 1 minute and overriding via property
-                    throw new UnsupportedOperationException(UNSUPPORTED_SCOPE_MESSAGE);
+                    //TODO: Add overriding default value + setting via xml
+                    temporaryScopeMetadataHolder.put(beanName, new TemporaryScopeMetadata(1000, ChronoUnit.MILLIS));
                 }
             }
         }
