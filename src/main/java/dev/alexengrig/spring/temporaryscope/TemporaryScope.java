@@ -10,7 +10,7 @@ import java.time.temporal.ChronoUnit;
 
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-@Scope("temporary")
+@Scope(TemporaryScope.SCOPE_NAME)
 public @interface TemporaryScope {
 
     String SCOPE_NAME = "temporary";
