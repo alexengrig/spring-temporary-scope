@@ -69,8 +69,8 @@ public class TemporaryScopeMetadataRegister implements BeanFactoryPostProcessor 
         }
 
         public static TemporaryScopeGetter fromXmlMetaAttributes(Function<String, Object> getter) {
-            long value = Long.parseLong((String) getter.apply(TemporaryScope.CLASS_NAME + ".value"));
-            ChronoUnit unit = ChronoUnit.valueOf((String) getter.apply(TemporaryScope.CLASS_NAME + ".unit"));
+            long value = Long.parseLong((String) getter.apply(TemporaryScope.VALUE_PROPERTY));
+            ChronoUnit unit = ChronoUnit.valueOf((String) getter.apply(TemporaryScope.UNIT_PROPERTY));
             return new TemporaryScopeGetter(value, unit);
         }
 

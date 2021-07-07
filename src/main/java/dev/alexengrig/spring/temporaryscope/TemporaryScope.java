@@ -15,6 +15,8 @@ public @interface TemporaryScope {
 
     String SCOPE_NAME = "temporary";
     String CLASS_NAME = TemporaryScope.class.getName();
+    String VALUE_PROPERTY = CLASS_NAME + ".value";
+    String UNIT_PROPERTY = CLASS_NAME + ".unit";
 
     long value();
 
