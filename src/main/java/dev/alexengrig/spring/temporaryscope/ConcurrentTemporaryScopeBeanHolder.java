@@ -5,16 +5,20 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class ConcurrentTemporaryScopeBeanHolder implements TemporaryScopeBeanHolder {
 
-    private final Map<String, Object> objectByName = new ConcurrentHashMap<>();
+    private final Map<String, TemporaryScopeBean> beanByName = new ConcurrentHashMap<>();
 
     @Override
-    public void put(String beanName, Object beanObject) {
-        objectByName.put(beanName, beanObject);
+    public void put(String name, TemporaryScopeBean bean) {
+        beanByName.put(name, bean);
     }
 
     @Override
-    public Object get(String beanName) {
-        return objectByName.get(beanName);
+    public boolean contains(String name) {
+        return beanByName.containsKey(name);
     }
 
+    @Override
+    public TemporaryScopeBean get(String name) {
+        return beanByName.get(name);
+    }
 }

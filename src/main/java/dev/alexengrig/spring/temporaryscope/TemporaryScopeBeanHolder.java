@@ -2,8 +2,10 @@ package dev.alexengrig.spring.temporaryscope;
 
 public interface TemporaryScopeBeanHolder {
 
-    void put(String beanName, Object beanObject);
+    void put(String name, TemporaryScopeBean bean);
 
-    Object get(String beanName);
+    boolean contains(String name);
+
+    TemporaryScopeBean get(String name);
 
 }
