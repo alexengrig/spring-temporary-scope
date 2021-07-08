@@ -80,6 +80,12 @@ class TemporaryScopeHolderTest {
             return new TemporaryBean();
         }
 
+      /*TODO Check without properties
+        @Bean
+        @Scope("temporary")
+        static String bean() {
+            return "bean";
+        }*/
     }
 
 }
