@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'dev.alexengrig.spring'
-version = '0.0.1-SNAPSHOT'
+version = '0.1.0-SNAPSHOT'
 sourceCompatibility = '16'
 
 repositories {
@@ -11,8 +11,6 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework:spring-context:5.3.8'
-    testImplementation 'org.springframework:spring-test:5.3.8'
     testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.1.0'
 }
 
