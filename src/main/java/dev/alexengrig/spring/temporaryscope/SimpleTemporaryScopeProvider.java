@@ -3,12 +3,12 @@ package dev.alexengrig.spring.temporaryscope;
 import java.time.LocalDateTime;
 import java.util.function.Supplier;
 
-public class SimpleTemporaryScopeProducer implements TemporaryScopeProducer {
+public class SimpleTemporaryScopeProvider implements TemporaryScopeProvider {
 
     private final TemporaryScopeBeanHolder beanHolder;
     private final TemporaryScopeMetadataHolder metadataHolder;
 
-    public SimpleTemporaryScopeProducer(TemporaryScopeBeanHolder beanHolder, TemporaryScopeMetadataHolder metadataHolder) {
+    public SimpleTemporaryScopeProvider(TemporaryScopeBeanHolder beanHolder, TemporaryScopeMetadataHolder metadataHolder) {
         this.beanHolder = beanHolder;
         this.metadataHolder = metadataHolder;
     }
