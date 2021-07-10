@@ -11,6 +11,7 @@ public final class SingletonTemporaryScopeMetadataHolder implements TemporarySco
     private final Map<String, TemporaryScopeMetadata> metadataByName = new ConcurrentHashMap<>();
 
     private SingletonTemporaryScopeMetadataHolder() {
+        //TODO FromIs
     }
 
     public static SingletonTemporaryScopeMetadataHolder instance() {
