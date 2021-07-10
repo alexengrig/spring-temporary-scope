@@ -1,4 +1,4 @@
-package dev.alexengrig.spring.temporaryscope;
+package dev.alexengrig.temporaryscope;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

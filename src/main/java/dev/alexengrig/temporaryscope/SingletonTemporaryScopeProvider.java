@@ -1,4 +1,4 @@
-package dev.alexengrig.spring.temporaryscope;
+package dev.alexengrig.temporaryscope;
 
 import java.time.LocalDateTime;
 import java.util.function.Supplier;

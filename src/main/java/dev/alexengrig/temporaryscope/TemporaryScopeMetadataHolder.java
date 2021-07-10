@@ -1,4 +1,4 @@
-package dev.alexengrig.spring.temporaryscope;
+package dev.alexengrig.temporaryscope;
 
 public interface TemporaryScopeMetadataHolder {
 
