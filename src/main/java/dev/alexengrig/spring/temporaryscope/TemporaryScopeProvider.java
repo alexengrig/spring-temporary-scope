@@ -6,4 +6,6 @@ public interface TemporaryScopeProvider {
 
     Object get(String beanName, Supplier<Object> beanProducer);
 
+    Object remove(String beanName);
+
 }

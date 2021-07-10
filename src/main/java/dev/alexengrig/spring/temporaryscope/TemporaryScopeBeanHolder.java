@@ -8,4 +8,6 @@ public interface TemporaryScopeBeanHolder {
 
     TemporaryScopeBean get(String name);
 
+    TemporaryScopeBean remove(String name);
+
 }
