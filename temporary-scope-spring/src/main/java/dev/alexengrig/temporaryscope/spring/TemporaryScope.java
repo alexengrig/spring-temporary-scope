@@ -13,12 +13,10 @@ import java.time.temporal.ChronoUnit;
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Temporary(0)
-@Scope(TemporaryScopeConfiguration.SCOPE_NAME)
+@Scope(SpringTemporaryScopeConfiguration.SCOPE_NAME)
 public @interface TemporaryScope {
 
     String CLASS_NAME = TemporaryScope.class.getName();
-    String VALUE_NAME = "name";
-    String UNIT_NAME = "unit";
 
     @AliasFor(value = "value", annotation = Temporary.class)
     long value();
