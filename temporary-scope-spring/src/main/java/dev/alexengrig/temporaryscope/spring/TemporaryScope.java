@@ -1,6 +1,8 @@
-package dev.alexengrig.spring.temporaryscope;
+package dev.alexengrig.temporaryscope.spring;
 
 import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.core.annotation.AliasFor;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -10,18 +12,21 @@ import java.time.temporal.ChronoUnit;
 
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-@Scope(TemporaryScope.SCOPE_NAME)
+@Temporary(0)
+@Scope(TemporaryScopeConfiguration.SCOPE_NAME)
 public @interface TemporaryScope {
 
-    String SCOPE_NAME = "temporary";
     String CLASS_NAME = TemporaryScope.class.getName();
     String VALUE_NAME = "name";
     String UNIT_NAME = "unit";
-    String VALUE_PROPERTY = CLASS_NAME + "." + VALUE_NAME;
-    String UNIT_PROPERTY = CLASS_NAME + "." + UNIT_NAME;
 
+    @AliasFor(value = "value", annotation = Temporary.class)
     long value();
 
+    @AliasFor(value = "unit", annotation = Temporary.class)
     ChronoUnit unit() default ChronoUnit.MILLIS;
+
+    @AliasFor(value = "proxyMode", annotation = Scope.class)
+    ScopedProxyMode proxyMode() default ScopedProxyMode.DEFAULT;
 
 }
