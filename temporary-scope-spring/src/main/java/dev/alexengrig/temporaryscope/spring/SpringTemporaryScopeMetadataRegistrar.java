@@ -48,7 +48,7 @@ public class SpringTemporaryScopeMetadataRegistrar implements BeanFactoryPostPro
 
     private void processAnnotatedBean(String beanName, AnnotatedBeanDefinition annotatedBeanDefinition) {
         AnnotatedTypeMetadata beanMetadata = getBeanMetadata(annotatedBeanDefinition);
-        if (beanMetadata.isAnnotated(TemporaryScope.CLASS_NAME)) {
+        if (beanMetadata.isAnnotated(Temporary.CLASS_NAME)) {
             TemporaryScopeMetadata scopeMetadata = getScopeMetadata(beanMetadata);
             registerMetadata(beanName, scopeMetadata);
         }
@@ -90,8 +90,8 @@ public class SpringTemporaryScopeMetadataRegistrar implements BeanFactoryPostPro
             if (attributes == null) {
                 throw new IllegalArgumentException("Bean doesn't have @TemporaryScope annotation.");
             }
-            long value = (long) attributes.get(VALUE_NAME);
-            ChronoUnit unit = (ChronoUnit) attributes.get(UNIT_NAME);
+            long value = (long) attributes.get(Temporary.VALUE_NAME);
+            ChronoUnit unit = (ChronoUnit) attributes.get(Temporary.UNIT_NAME);
             return new TemporaryScopeValueProvider(value, unit);
         }
 
