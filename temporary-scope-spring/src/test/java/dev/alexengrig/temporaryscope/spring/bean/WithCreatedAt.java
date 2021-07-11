@@ -1,8 +1,8 @@
-package dev.alexengrig.spring.temporaryscope.bean;
+package dev.alexengrig.temporaryscope.spring.bean;
 
 import java.time.LocalDateTime;
 
-public abstract class BaseTemporary {
+public abstract class WithCreatedAt {
 
     private final LocalDateTime createdAt = LocalDateTime.now();
 
