@@ -4,7 +4,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd"
 >
-    <bean class="dev.alexengrig.temporaryscope.spring.bean.XmlBeanWithCreatedAt"
+    <bean class="dev.alexengrig.temporaryscope.spring.bean.XmlBean"
           scope="temporary"
     >
         <meta key="dev.alexengrig.temporaryscope.spring.Temporary.value"

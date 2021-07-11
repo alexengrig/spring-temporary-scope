@@ -5,5 +5,5 @@ import org.springframework.stereotype.Component;
 
 @Component
 @TemporaryScope(1000)
-public class ComponentWithCreatedAt extends WithCreatedAt {
+public class TemporaryScopeComponent extends WithCreatedAt {
 }
