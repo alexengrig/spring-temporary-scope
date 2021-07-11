@@ -8,7 +8,7 @@ public class SpringTemporaryScopeRegistrar implements BeanFactoryPostProcessor {
 
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-        beanFactory.registerScope(TemporaryScopeConfiguration.SCOPE_NAME, new SpringTemporaryScopeProvider());
+        beanFactory.registerScope(SpringTemporaryScopeConfiguration.SCOPE_NAME, new SpringTemporaryScopeProvider());
     }
 
 }
