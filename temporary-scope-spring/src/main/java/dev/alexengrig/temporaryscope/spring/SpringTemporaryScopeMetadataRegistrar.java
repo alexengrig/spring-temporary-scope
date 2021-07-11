@@ -1,5 +1,8 @@
-package dev.alexengrig.spring.temporaryscope;
+package dev.alexengrig.temporaryscope.spring;
 
+import dev.alexengrig.temporaryscope.SingletonTemporaryScopeMetadataHolder;
+import dev.alexengrig.temporaryscope.TemporaryScopeMetadata;
+import dev.alexengrig.temporaryscope.TemporaryScopeMetadataHolder;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -12,12 +15,12 @@ import java.time.temporal.ChronoUnit;
 import java.util.Map;
 import java.util.function.Function;
 
-public class TemporaryScopeMetadataRegister implements BeanFactoryPostProcessor {
+public class SpringTemporaryScopeMetadataRegistrar implements BeanFactoryPostProcessor {
 
-    private final TemporaryScopeMetadataHolder temporaryScopeMetadataHolder = TemporaryScopeMetadataHolder.instance();
+    private final TemporaryScopeMetadataHolder metadataHolder = SingletonTemporaryScopeMetadataHolder.instance();
 
     private void registerMetadata(String beanName, TemporaryScopeMetadata metadata) {
-        temporaryScopeMetadataHolder.put(beanName, metadata);
+        metadataHolder.put(beanName, metadata);
     }
 
     @Override
@@ -31,7 +34,7 @@ public class TemporaryScopeMetadataRegister implements BeanFactoryPostProcessor 
     }
 
     private boolean isTargetScope(BeanDefinition beanDefinition) {
-        return TemporaryScope.SCOPE_NAME.equals(beanDefinition.getScope());
+        return SpringTemporaryScopeConfiguration.SCOPE_NAME.equals(beanDefinition.getScope());
     }
 
     private void process(String beanName, BeanDefinition beanDefinition) {
@@ -48,9 +51,8 @@ public class TemporaryScopeMetadataRegister implements BeanFactoryPostProcessor 
         if (beanMetadata.isAnnotated(TemporaryScope.CLASS_NAME)) {
             TemporaryScopeMetadata scopeMetadata = getScopeMetadata(beanMetadata);
             registerMetadata(beanName, scopeMetadata);
-        } else {
-            //TODO @Scope("temporary")
         }
+        //TODO @Scope("temporary")
     }
 
     private AnnotatedTypeMetadata getBeanMetadata(AnnotatedBeanDefinition annotatedBeanDefinition) {
@@ -81,22 +83,22 @@ public class TemporaryScopeMetadataRegister implements BeanFactoryPostProcessor 
     }
 
     @SuppressWarnings("ClassExplicitlyAnnotation")
-    private static record TemporaryScopeValueProvider(long value, ChronoUnit unit) implements TemporaryScope {
+    private static record TemporaryScopeValueProvider(long value, ChronoUnit unit) implements Temporary {
 
         public static TemporaryScopeValueProvider from(AnnotatedTypeMetadata beanMetadata) {
-            Map<String, Object> attributes = beanMetadata.getAnnotationAttributes(TemporaryScope.CLASS_NAME);
+            Map<String, Object> attributes = beanMetadata.getAnnotationAttributes(CLASS_NAME);
             if (attributes == null) {
                 throw new IllegalArgumentException("Bean doesn't have @TemporaryScope annotation.");
             }
-            long value = (long) attributes.get(TemporaryScope.VALUE_NAME);
-            ChronoUnit unit = (ChronoUnit) attributes.get(TemporaryScope.UNIT_NAME);
+            long value = (long) attributes.get(VALUE_NAME);
+            ChronoUnit unit = (ChronoUnit) attributes.get(UNIT_NAME);
             return new TemporaryScopeValueProvider(value, unit);
         }
 
         public static TemporaryScopeValueProvider from(Function<String, Object> getter) {
             //TODO NPE
-            long value = Long.parseLong((String) getter.apply(TemporaryScope.VALUE_PROPERTY));
-            ChronoUnit unit = ChronoUnit.valueOf((String) getter.apply(TemporaryScope.UNIT_PROPERTY));
+            long value = Long.parseLong((String) getter.apply(SpringTemporaryScopeConfiguration.VALUE_PROPERTY));
+            ChronoUnit unit = ChronoUnit.valueOf((String) getter.apply(SpringTemporaryScopeConfiguration.UNIT_PROPERTY));
             return new TemporaryScopeValueProvider(value, unit);
         }
 
