@@ -42,6 +42,9 @@ public class SingletonTemporaryScopeProvider implements TemporaryScopeProvider {
             }
         }
         TemporaryScopeMetadata metadata = metadataHolder.get(beanName);
+        if (metadata == null) {
+            throw new IllegalArgumentException("No bean metadata for bean name: " + beanName);
+        }
         Object bean = beanProducer.get();
         LocalDateTime expiredAt = metadata.createExpiredAt();
         beanHolder.put(beanName, new TemporaryScopeBean(expiredAt, bean));
