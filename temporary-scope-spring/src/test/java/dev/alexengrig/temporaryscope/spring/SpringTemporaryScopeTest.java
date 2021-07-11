@@ -1,9 +1,9 @@
-package dev.alexengrig.spring.temporaryscope;
+package dev.alexengrig.temporaryscope.spring;
 
-import dev.alexengrig.spring.temporaryscope.bean.BaseTemporary;
-import dev.alexengrig.spring.temporaryscope.bean.TemporaryBean;
-import dev.alexengrig.spring.temporaryscope.bean.TemporaryComponent;
-import dev.alexengrig.spring.temporaryscope.bean.TemporaryXmlBean;
+import dev.alexengrig.temporaryscope.spring.bean.WithCreatedAt;
+import dev.alexengrig.temporaryscope.spring.bean.BeanWithCreatedAt;
+import dev.alexengrig.temporaryscope.spring.bean.ComponentWithCreatedAt;
+import dev.alexengrig.temporaryscope.spring.bean.XmlBeanWithCreatedAt;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,25 +15,25 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
-@SpringJUnitConfig(TemporaryScopeHolderTest.Config.class)
-class TemporaryScopeHolderTest {
+@SpringJUnitConfig(SpringTemporaryScopeTest.Config.class)
+class SpringTemporaryScopeTest {
 
     @Autowired
-    ObjectFactory<TemporaryBean> temporaryBeanProvider;
+    ObjectFactory<BeanWithCreatedAt> temporaryBeanProvider;
     @Autowired
-    ObjectFactory<TemporaryXmlBean> temporaryXmlBeanProvider;
+    ObjectFactory<XmlBeanWithCreatedAt> temporaryXmlBeanProvider;
     @Autowired
-    ObjectFactory<TemporaryComponent> temporaryComponentProvider;
+    ObjectFactory<ComponentWithCreatedAt> temporaryComponentProvider;
 
-    static <B extends BaseTemporary> void test(ObjectFactory<? extends B> objectFactory) throws InterruptedException {
+    static <B extends WithCreatedAt> void test(ObjectFactory<? extends B> objectFactory) throws InterruptedException {
         B bean = objectFactory.getObject();
         assertNotNull(bean, "Bean is null");
         TimeUnit.MILLISECONDS.sleep(1000);
         B nextBean = objectFactory.getObject();
         assertNotNull(nextBean, "Next bean is null");
+        assertNotSame(bean, nextBean, "Next bean is same bean");
         assertNotEquals(bean.getCreatedAt(), nextBean.getCreatedAt(), "CreatedAt is not different");
     }
 
@@ -60,24 +60,24 @@ class TemporaryScopeHolderTest {
     }
 
     @Configuration
-    @ComponentScan("dev.alexengrig.spring.temporaryscope.bean")
+    @ComponentScan("dev.alexengrig.temporaryscope.spring.bean")
     @ImportResource("classpath:bean.xml")
     static class Config {
 
         @Bean
-        static TemporaryScopeRegister temporaryScopeRegister() {
-            return new TemporaryScopeRegister();
+        static SpringTemporaryScopeRegistrar temporaryScopeRegister() {
+            return new SpringTemporaryScopeRegistrar();
         }
 
         @Bean
-        static TemporaryScopeMetadataRegister temporaryScopeMetadataRegister() {
-            return new TemporaryScopeMetadataRegister();
+        static SpringTemporaryScopeMetadataRegistrar temporaryScopeMetadataRegister() {
+            return new SpringTemporaryScopeMetadataRegistrar();
         }
 
         @Bean
         @TemporaryScope(1000)
-        static TemporaryBean temporaryBean() {
-            return new TemporaryBean();
+        static BeanWithCreatedAt temporaryBean() {
+            return new BeanWithCreatedAt();
         }
 
       /*TODO Check without properties
