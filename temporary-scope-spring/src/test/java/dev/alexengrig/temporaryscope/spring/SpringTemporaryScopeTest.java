@@ -4,7 +4,6 @@ import dev.alexengrig.temporaryscope.spring.bean.TemporaryBean;
 import dev.alexengrig.temporaryscope.spring.bean.TemporaryComponent;
 import dev.alexengrig.temporaryscope.spring.bean.TemporaryScopeBean;
 import dev.alexengrig.temporaryscope.spring.bean.TemporaryScopeComponent;
-import dev.alexengrig.temporaryscope.spring.bean.WithCreatedAt;
 import dev.alexengrig.temporaryscope.spring.bean.XmlBean;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.ObjectFactory;
