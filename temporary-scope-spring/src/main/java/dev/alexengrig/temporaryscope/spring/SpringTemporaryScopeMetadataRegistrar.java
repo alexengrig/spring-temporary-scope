@@ -58,11 +58,13 @@ public class SpringTemporaryScopeMetadataRegistrar implements BeanFactoryPostPro
 
     private void processAnnotatedBean(String beanName, AnnotatedBeanDefinition annotatedBeanDefinition) {
         AnnotatedTypeMetadata beanMetadata = getBeanMetadata(annotatedBeanDefinition);
-        if (beanMetadata.isAnnotated(Temporary.CLASS_NAME)) {
+        if (beanMetadata.isAnnotated(Temporary.class.getName())) {
             TemporaryScopeMetadata scopeMetadata = getScopeMetadata(beanMetadata);
             registerMetadata(beanName, scopeMetadata);
+        } else {
+            LOGGER.warning("No @Temporary for bean '" + beanName +
+                           "' - " + annotatedBeanDefinition.getBeanClassName());
         }
-        //TODO @Scope("temporary")
     }
 
     private AnnotatedTypeMetadata getBeanMetadata(AnnotatedBeanDefinition annotatedBeanDefinition) {
