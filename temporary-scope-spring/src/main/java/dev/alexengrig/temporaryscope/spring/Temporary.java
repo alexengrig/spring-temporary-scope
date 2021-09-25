@@ -10,6 +10,7 @@ import java.time.temporal.ChronoUnit;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Temporary {
 
+    //TODO: Move below to configuration
     String CLASS_NAME = Temporary.class.getName();
     String VALUE_NAME = "value";
     String UNIT_NAME = "unit";
