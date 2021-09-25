@@ -1,9 +1,9 @@
 package dev.alexengrig.temporaryscope.spring;
 
 import dev.alexengrig.temporaryscope.TemporaryScopeMetadata;
-import dev.alexengrig.temporaryscope.TemporaryScopeMetadataHolder;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -13,17 +13,24 @@ import java.lang.annotation.Annotation;
 import java.time.temporal.ChronoUnit;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.logging.Logger;
+
+import static dev.alexengrig.temporaryscope.spring.SpringTemporaryScopeConfiguration.METADATA_MAP_BEAN_NAME;
 
 public class SpringTemporaryScopeMetadataRegistrar implements BeanFactoryPostProcessor {
 
-    private final TemporaryScopeMetadataHolder scopeMetadataHolder;
+    private static final Logger LOGGER = Logger.getLogger(SpringTemporaryScopeMetadataRegistrar.class.getName());
 
-    public SpringTemporaryScopeMetadataRegistrar(TemporaryScopeMetadataHolder scopeMetadataHolder) {
-        this.scopeMetadataHolder = scopeMetadataHolder;
+    private final Map<String, TemporaryScopeMetadata> metadataByName;
+
+    public SpringTemporaryScopeMetadataRegistrar(
+            @Qualifier(METADATA_MAP_BEAN_NAME) Map<String, TemporaryScopeMetadata> temporaryScopeMetadataMap) {
+        this.metadataByName = temporaryScopeMetadataMap;
     }
 
     private void registerMetadata(String beanName, TemporaryScopeMetadata metadata) {
-        scopeMetadataHolder.put(beanName, metadata);
+        LOGGER.info("Add bean '" + beanName + "' to metadata map");
+        metadataByName.put(beanName, metadata);
     }
 
     @Override
