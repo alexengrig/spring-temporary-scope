@@ -1,5 +1,6 @@
 package dev.alexengrig.temporaryscope.spring;
 
+import dev.alexengrig.temporaryscope.TemporaryScopeMetadataHolder;
 import org.springframework.context.annotation.Bean;
 
 public class SpringTemporaryScopeConfiguration {
@@ -11,13 +12,13 @@ public class SpringTemporaryScopeConfiguration {
     public static final String UNIT_PROPERTY = Temporary.CLASS_NAME + ".unit";
 
     @Bean
-    static SpringTemporaryScopeRegistrar temporaryScopeRegister() {
-        return new SpringTemporaryScopeRegistrar();
+    static SpringTemporaryScopeRegistrar temporaryScopeRegister(SpringTemporaryScopeProvider scopeProvider) {
+        return new SpringTemporaryScopeRegistrar(scopeProvider);
     }
 
     @Bean
-    static SpringTemporaryScopeMetadataRegistrar temporaryScopeMetadataRegister() {
-        return new SpringTemporaryScopeMetadataRegistrar();
+    static SpringTemporaryScopeMetadataRegistrar temporaryScopeMetadataRegister(TemporaryScopeMetadataHolder scopeMetadataHolder) {
+        return new SpringTemporaryScopeMetadataRegistrar(scopeMetadataHolder);
     }
 
 }
