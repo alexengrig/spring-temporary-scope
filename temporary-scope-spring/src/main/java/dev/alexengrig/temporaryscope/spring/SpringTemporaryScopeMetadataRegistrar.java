@@ -1,6 +1,5 @@
 package dev.alexengrig.temporaryscope.spring;
 
-import dev.alexengrig.temporaryscope.SingletonTemporaryScopeMetadataHolder;
 import dev.alexengrig.temporaryscope.TemporaryScopeMetadata;
 import dev.alexengrig.temporaryscope.TemporaryScopeMetadataHolder;
 import org.springframework.beans.BeansException;
@@ -17,10 +16,14 @@ import java.util.function.Function;
 
 public class SpringTemporaryScopeMetadataRegistrar implements BeanFactoryPostProcessor {
 
-    private final TemporaryScopeMetadataHolder metadataHolder = SingletonTemporaryScopeMetadataHolder.instance();
+    private final TemporaryScopeMetadataHolder scopeMetadataHolder;
+
+    public SpringTemporaryScopeMetadataRegistrar(TemporaryScopeMetadataHolder scopeMetadataHolder) {
+        this.scopeMetadataHolder = scopeMetadataHolder;
+    }
 
     private void registerMetadata(String beanName, TemporaryScopeMetadata metadata) {
-        metadataHolder.put(beanName, metadata);
+        scopeMetadataHolder.put(beanName, metadata);
     }
 
     @Override
@@ -86,6 +89,7 @@ public class SpringTemporaryScopeMetadataRegistrar implements BeanFactoryPostPro
     private static record TemporaryScopeValueProvider(long value, ChronoUnit unit) implements Temporary {
 
         public static TemporaryScopeValueProvider from(AnnotatedTypeMetadata beanMetadata) {
+            //TODO: Refactor
             Map<String, Object> attributes = beanMetadata.getAnnotationAttributes(CLASS_NAME);
             if (attributes == null) {
                 throw new IllegalArgumentException("Bean doesn't have @TemporaryScope annotation.");
