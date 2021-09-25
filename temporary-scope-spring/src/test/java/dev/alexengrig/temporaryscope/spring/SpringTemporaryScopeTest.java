@@ -18,9 +18,11 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.util.concurrent.TimeUnit;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.fail;
 
 @SpringJUnitConfig(
@@ -51,9 +53,20 @@ public class SpringTemporaryScopeTest {
             fail(e);
         }
         B nextBean = objectFactory.getObject();
+        try {
+            TimeUnit.MILLISECONDS.sleep(AMOUNT / 3);
+        } catch (InterruptedException e) {
+            fail(e);
+        }
+        B anotherNextBean = objectFactory.getObject();
+
         assertNotNull(nextBean, "Next bean is null");
         assertNotSame(bean, nextBean, "Next bean is same bean");
         assertNotEquals(bean.getCreatedAt(), nextBean.getCreatedAt(), "CreatedAt is not different");
+
+        assertNotNull(anotherNextBean, "Another next bean is null");
+        assertSame(nextBean, anotherNextBean, "Another next bean isn't same bean");
+        assertEquals(nextBean.getCreatedAt(), anotherNextBean.getCreatedAt(), "CreatedAt is different");
     }
 
     @Test
