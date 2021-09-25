@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.annotation.Scope;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
@@ -25,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.fail;
 
 @SpringJUnitConfig(
-        value = SpringTemporaryScopeTest.Config.class,
+        value = {SpringTemporaryScopeConfiguration.class, SpringTemporaryScopeTest.BeanConfiguration.class},
         initializers = SpringTemporaryScopeInitializer.class
 )
 public class SpringTemporaryScopeTest {
@@ -94,8 +93,7 @@ public class SpringTemporaryScopeTest {
     @Configuration
     @ComponentScan("dev.alexengrig.temporaryscope.spring.bean")
     @ImportResource("classpath:bean.xml")
-    @Import(SpringTemporaryScopeConfiguration.class)
-    static class Config {
+    static class BeanConfiguration {
 
         @Bean
         @Scope(SpringTemporaryScopeConfiguration.SCOPE_NAME)
