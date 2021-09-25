@@ -10,11 +10,16 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static dev.alexengrig.temporaryscope.spring.SpringTemporaryScopeConfiguration.METADATA_MAP_BEAN_NAME;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
-@SpringJUnitConfig(SpringTemporaryScopeConfiguration.class)
+@SpringJUnitConfig(
+        value = SpringTemporaryScopeConfiguration.class,
+        initializers = SpringTemporaryScopeInitializer.class
+)
 class ContextTest {
 
     @Autowired
@@ -37,6 +42,7 @@ class ContextTest {
     @Test
     void should_load_context() {
         assertNotNull(temporaryScopeMetadataMap, METADATA_MAP_BEAN_NAME);
+        assertSame(ConcurrentHashMap.class, temporaryScopeMetadataMap.getClass(), METADATA_MAP_BEAN_NAME);
         assertNotNull(temporaryScopeBeanHolder, "TemporaryScopeBeanHolder");
         assertNotNull(temporaryScopeMetadataHolder, "TemporaryScopeMetadataHolder");
         assertNotNull(temporaryScopeProvider, "TemporaryScopeProvider");
